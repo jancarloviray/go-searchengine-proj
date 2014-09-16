@@ -27,7 +27,7 @@ app.controller('home', [
 					data.values[i] = data.values[i].replace(n, '<span class="hl">' + n + '</span>');
 				}
 				model.query = n;
-				model.results = data.results;
+				//model.results = data.results;
 				model.duration = data.duration;
 				model.values = data.values;
 			})

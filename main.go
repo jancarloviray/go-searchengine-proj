@@ -41,18 +41,18 @@ func routes() {
 }
 
 type SearchResponse struct {
-	Query    string        `json:"query"`
-	Duration string        `json:"duration"`
-	Results  []string      `json:"results"`
-	Values   []interface{} `json:"values"`
+	//Query    string        `json:"query"`
+	Duration string `json:"duration"`
+	//Results  []string      `json:"results"`
+	Values []interface{} `json:"values"`
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	s := r.URL.Query()["s"][0]
 	t := time.Now()
-	results, values := engine.Query(s, 17)
+	_, values := engine.Query(s, 15)
 	duration := time.Now().Sub(t).String()
-	data, _ := json.Marshal(SearchResponse{s, duration, results, values})
+	data, _ := json.Marshal(SearchResponse{duration, values})
 	fmt.Fprint(w, string(data))
 }
 
