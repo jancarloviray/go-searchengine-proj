@@ -14,7 +14,7 @@ import (
 	web "github.com/zenazn/goji/web"
 )
 
-var public = "."
+var public string = "./public"
 var engine ferret.InvertedSuffix
 
 func main() {
