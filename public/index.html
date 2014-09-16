@@ -5,6 +5,7 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-sanitize.min.js"></script>
 	<link href="/styles/style.css" rel="stylesheet">
 	<script src="/scripts/script.js"></script>
 </head>
@@ -31,15 +32,15 @@
 
     <div class="container">
       <div class="starter-template">
-        <h1>Full Text Search in Golang</h1>
-        <p class="lead">Type any word in here and find instant results.<br> Golang is pretty fast, as you will see!</p>
+        <h1 class="title">Instant Search</h1>
+        <p class="lead">Super powered by Golang</p>
       </div>
-		<input ng-model="query" type="text" placeholder="Type Here" class="form-control"/>
-		<ul>
+		<img class="gopher" src="/img/gopher.jpg"/>
+		<input ng-model="query" type="text" placeholder="Type Here" class="form-control search-input"/>
+		<p class="stats" ng-show="model.values.length > 0">Results in <strong style="color:#333">{{model.duration}}</strong> from 1700 pages</p>
+		<ul class="search-result-list">
 			<li ng-repeat="item in model.values">
-				<p>
-					{{item}}
-				</p>
+				<p ng-bind-html="$sce.trustAsHtml(item)"></p>
 			</li>
 		</ul>
     </div>

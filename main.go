@@ -27,9 +27,9 @@ func routes() {
 	g.Get("/", http.FileServer(http.Dir(public)))
 
 	static := web.New()
-	static.Get("/scripts/*", http.StripPrefix("/scripts/", http.FileServer(http.Dir(public))))
-	static.Get("/styles/*", http.StripPrefix("/styles/", http.FileServer(http.Dir(public))))
-	static.Get("/img/*", http.StripPrefix("/img/", http.FileServer(http.Dir(public))))
+	static.Get("/scripts/*", http.FileServer(http.Dir(public)))
+	static.Get("/styles/*", http.FileServer(http.Dir(public)))
+	static.Get("/img/*", http.FileServer(http.Dir(public)))
 
 	api := web.New()
 	api.Get("/api/search", SearchHandler)
@@ -41,16 +41,16 @@ func routes() {
 }
 
 type SearchResponse struct {
-	Query   string        `json:"query"`
-	Timing  string        `json:"timing"`
-	Results []string      `json:"results"`
-	Values  []interface{} `json:"values"`
+	Query    string        `json:"query"`
+	Duration string        `json:"duration"`
+	Results  []string      `json:"results"`
+	Values   []interface{} `json:"values"`
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	s := r.URL.Query()["s"][0]
 	t := time.Now()
-	results, values := engine.Query(s, 10)
+	results, values := engine.Query(s, 17)
 	duration := time.Now().Sub(t).String()
 	data, _ := json.Marshal(SearchResponse{s, duration, results, values})
 	fmt.Fprint(w, string(data))
@@ -88,7 +88,7 @@ func buildFerret() *ferret.InvertedSuffix {
 }
 
 const (
-	MaximumContextSize = 12
+	MaximumContextSize = 17
 	ContextAfter       = 6
 )
 
@@ -100,10 +100,10 @@ var (
 
 func eachWord(scannedWord string) {
 	// cleanup words to be keys
-	contextWord, cleanedWord := cleanWord(scannedWord)
+	contextWord, cleanedKey := cleanKey(scannedWord)
 
 	// an array of words
-	Words = append(Words, cleanedWord)
+	Words = append(Words, cleanedKey)
 
 	// current context (currently iterated word + 11 more words)
 	if len(CurrentContext) > MaximumContextSize {
@@ -112,16 +112,22 @@ func eachWord(scannedWord string) {
 	}
 
 	// append
-	CurrentContext = append(CurrentContext, contextWord)
+	CurrentContext = append(CurrentContext, cleanWord(contextWord))
 	context := strings.Join(CurrentContext, " ")
 
 	// build values
 	Values = append(Values, context)
 }
 
-func cleanWord(rawWord string) (before, after string) {
+func cleanKey(rawWord string) (before, cleanedKey string) {
 	before = rawWord
 	r := strings.NewReplacer("*", "", ",", "", ".", "", "^", "")
-	after = strings.ToLower(r.Replace(rawWord))
+	cleanedKey = strings.ToLower(r.Replace(rawWord))
+	return
+}
+
+func cleanWord(rawWord string) (cleanedWord string) {
+	r := strings.NewReplacer("*", "", "^", "", "_", "")
+	cleanedWord = strings.ToLower(r.Replace(rawWord))
 	return
 }
