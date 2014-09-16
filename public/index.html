@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Full Text Search in Golang</title>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-sanitize.min.js"></script>
-	<link href="/styles/style.css" rel="stylesheet">
-	<script src="/scripts/script.js"></script>
+    <title>Full Text Search in Golang</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-sanitize.min.js"></script>
+    <link href="/styles/style.css" rel="stylesheet">
+    <script src="/scripts/script.js"></script>
 </head>
 <body ng-app="app">
-<div id="container" ng-controller="home">
+    <div id="container" ng-controller="home">
 
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active"><a href="#">Home</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-          </ul>
+
+        <div class="container">
+            <div class="starter-template">
+                <h1 class="title">Instant Search</h1>
+                <p class="lead">Super powered by Golang</p>
+            </div>
+            <img class="gopher" src="/img/gopher.jpg"/>
+            <input ng-model="query" type="text" placeholder="Type Here" class="form-control search-input"/>
+            <p class="stats" ng-show="model.values.length > 0">Results in <strong style="color:#333">{{model.duration}}</strong> from 1700 pages</p>
+            <ul class="search-result-list">
+                <li ng-repeat="item in model.values">
+                    <p ng-bind-html="$sce.trustAsHtml(item)"></p>
+                </li>
+            </ul>
         </div>
-      </div>
-    </div>
 
-    <div class="container">
-      <div class="starter-template">
-        <h1 class="title">Instant Search</h1>
-        <p class="lead">Super powered by Golang</p>
-      </div>
-		<img class="gopher" src="/img/gopher.jpg"/>
-		<input ng-model="query" type="text" placeholder="Type Here" class="form-control search-input"/>
-		<p class="stats" ng-show="model.values.length > 0">Results in <strong style="color:#333">{{model.duration}}</strong> from 1700 pages</p>
-		<ul class="search-result-list">
-			<li ng-repeat="item in model.values">
-				<p ng-bind-html="$sce.trustAsHtml(item)"></p>
-			</li>
-		</ul>
     </div>
-
-</div>
 </body>
