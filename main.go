@@ -50,7 +50,7 @@ type SearchResponse struct {
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	s := r.URL.Query()["s"][0]
 	t := time.Now()
-	_, values := engine.Query(s, 15)
+	_, values := engine.Query(s, 10)
 	duration := time.Now().Sub(t).String()
 	data, _ := json.Marshal(SearchResponse{duration, values})
 	fmt.Fprint(w, string(data))
