@@ -24,7 +24,7 @@ app.controller('home', [
 						model.values = [];
 						return
 					};
-					data.values[i] = data.values[i].replace(n, "<strong>" + n + "</strong>");
+					data.values[i] = data.values[i].replace(n, '<span class="hl">' + n + '</span>');
 				}
 				model.query = n;
 				model.results = data.results;
